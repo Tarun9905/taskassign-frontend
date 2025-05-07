@@ -14,7 +14,6 @@ const TaskList = ({ statusType, showFilters = true }) => {
     dueDate: "",
   });
 
-  // Fetch tasks from the backend
   useEffect(() => {
     axios
       .get("https://taskassignbackend.onrender.com/tasks/")
@@ -26,7 +25,6 @@ const TaskList = ({ statusType, showFilters = true }) => {
       });
   }, []);
 
-  // Handle delete task
   const handleDelete = (taskId) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       axios
@@ -42,7 +40,6 @@ const TaskList = ({ statusType, showFilters = true }) => {
     }
   };
 
-  // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -126,9 +123,9 @@ const TaskList = ({ statusType, showFilters = true }) => {
                         <GrDocumentUpdate className="update-icon" />
                       </NavLink>
                     ) : statusType === "adddelete" ? (
-                      <>
+                      <div className="icon-group">
                         <NavLink to={`/addtask/${task.id}`} className="add-icon">
-                          <FaPlus className="add-icon" />
+                          <FaPlus />
                         </NavLink>
                         <button
                           onClick={() => handleDelete(task.id)}
@@ -136,7 +133,7 @@ const TaskList = ({ statusType, showFilters = true }) => {
                         >
                           <FaTrash />
                         </button>
-                      </>
+                      </div>
                     ) : null}
                   </td>
                 </tr>
@@ -211,9 +208,6 @@ const Wrapper = styled.section`
   .update-icon,
   .add-icon {
     color: #4caf50;
-    margin-left: 1rem;
-    background: none;
-    border: none;
     &:hover {
       color: #388e3c;
     }
@@ -221,12 +215,19 @@ const Wrapper = styled.section`
 
   .delete-icon {
     color: #f44336;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     background: none;
     border: none;
     &:hover {
       color: #d32f2f;
     }
+  }
+
+  .icon-group {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   @media (max-width: 768px) {
@@ -261,13 +262,12 @@ const FilterWrapper = styled.div`
   }
 
   input[type="text"] {
-    width: 200px; // Make the search input smaller
+    width: 200px;
     padding: 0.4rem;
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 0.9rem;
   }
-
 
   input[type="date"] {
     min-width: 150px;
